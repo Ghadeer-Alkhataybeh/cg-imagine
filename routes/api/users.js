@@ -3,6 +3,8 @@ const express = require("express");
 const router = express.Router();
 const User = require("../../models/User");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const keys = require("../../config/keys");
 
 // testing users route
 // access Public
@@ -52,7 +54,20 @@ router.post("/login", (req, res) => {
     //check the password
     bcrypt.compare(password, user.password).then(isMatch => {
       if (isMatch) {
-        res.json({ msg: "Success" });
+        // User Matched
+        const payload = { id: user.id, name: user.name }; // jwt payload created
+        // sign Token
+        jwt.sign(
+          payload,
+          keys.secretOrKey,
+          { expiresIn: 3600 },
+          (err, token) => {
+            res.json({
+              success: true,
+              token: "Bearer " + token
+            });
+          }
+        ); // maybe 1 hour is enough
       } else {
         return res.status(400).json({ password: "Password incorrect" });
       }
