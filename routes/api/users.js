@@ -5,6 +5,7 @@ const User = require("../../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
+const passport = require("passport");
 
 // testing users route
 // access Public
@@ -60,19 +61,33 @@ router.post("/login", (req, res) => {
         jwt.sign(
           payload,
           keys.secretOrKey,
-          { expiresIn: 3600 },
+          { expiresIn: 3600 }, // maybe 1 hour is enough
           (err, token) => {
             res.json({
               success: true,
               token: "Bearer " + token
             });
           }
-        ); // maybe 1 hour is enough
+        );
       } else {
         return res.status(400).json({ password: "Password incorrect" });
       }
     });
   });
 });
+
+// current users route
+// access Privet
+router.get(
+  "/current",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    res.json({
+      id: req.user.id,
+      name: req.user.name,
+      email: req.user.email
+    });
+  }
+);
 
 module.exports = router;
