@@ -12,6 +12,7 @@ import Footer from "./components/layout/Footer";
 import Landing from "./components/layout/Landing";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
+// import Posts from "./components/posts/Posts";
 import "./App.css";
 
 //checking for token

@@ -16,6 +16,16 @@ class Navbar extends Component {
       <div className="collapse navbar-collapse" id="mobile-nav">
         <ul className="navbar-nav ml-auto">
           <li className="nav-item">
+            <Link className="nav-link" to="/posts">
+              Home
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/dashboard">
+              My Posts
+            </Link>
+          </li>
+          <li className="nav-item">
             <a className="nav-link" href="#" onClick={this.onLogoutClick}>
               Logout
             </a>
